@@ -7,6 +7,7 @@
     "develop": "gatsby develop",
     "build": "gatsby build",
     "clean": "gatsby clean",
+    "serve": "gatsby serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Paul Scanlon",
@@ -23,6 +24,7 @@
     "gatsby-plugin-mdx": "^1.1.7",
     "gatsby-plugin-theme-ui": "^0.3.0",
     "gatsby-source-filesystem": "^2.2.2",
+    "netlify-identity-widget": "^1.5.6",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

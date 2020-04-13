@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Location } from "@reach/router";
 import { Container, Flex, Box, NavLink, Button } from "@theme-ui/components";
 import { Link } from "gatsby";
+import netlifyIdentity from "netlify-identity-widget";
 
 import SvgIcon from "./SvgIcon";
 import { COMMENT_ICON } from "../utils/iconPaths";
@@ -49,11 +50,17 @@ const Header = () => (
                 </NavLink>
               </Flex>
               <Box>
-                {pathname === "/admin" ? (
+                {pathname === "/admin/" ? (
                   <Fragment>
-                    <Button variant="primary">Sign up</Button>
+                    <Button
+                      variant="primary"
+                      onClick={() => netlifyIdentity.open("signup")}
+                    >
+                      Sign up
+                    </Button>
                     <Button
                       variant="secondary"
+                      onClick={() => netlifyIdentity.open("login")}
                       sx={{
                         ml: 2,
                       }}
