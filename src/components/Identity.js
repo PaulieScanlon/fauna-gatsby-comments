@@ -11,25 +11,25 @@ export const Identity = ({ children }) => {
   useEffect(() => {
     netlifyIdentity.init({});
     if (netlifyIdentity.currentUser()) {
-      console.log("currentUser: ", netlifyIdentity.currentUser());
+      // console.log("currentUser: ", netlifyIdentity.currentUser());
       dispatch({
         type: SET_IS_ADMIN_LOGGED_IN,
-        user: netlifyIdentity.currentUser(),
+        admin: netlifyIdentity.currentUser(),
       });
     }
   }, [dispatch]);
 
   netlifyIdentity.on("login", (user) => {
-    console.log("netlifyIdentity.on | login: ", user);
+    // console.log("netlifyIdentity.on | login: ", user);
     netlifyIdentity.close();
     dispatch({
       type: SET_IS_ADMIN_LOGGED_IN,
-      user: user,
+      admin: user,
     });
   });
 
   netlifyIdentity.on("logout", (user) => {
-    console.log("netlifyIdentity.on | logout: ", user);
+    // console.log("netlifyIdentity.on | logout: ", user);
     netlifyIdentity.close();
     dispatch({ type: SET_IS_ADMIN_LOGGED_IN, admin: user });
   });

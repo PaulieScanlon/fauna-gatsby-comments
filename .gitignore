@@ -105,3 +105,7 @@ dist
 
 # Gatsby build files
 public
+
+# env
+.env.development
+.env.production
