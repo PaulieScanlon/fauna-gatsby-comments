@@ -1,0 +1,38 @@
+import React, { useEffect, useContext, Fragment } from "react";
+import netlifyIdentity from "netlify-identity-widget";
+
+import { AppContext } from "./AppContext";
+
+import { SET_IS_ADMIN_LOGGED_IN } from "../utils/const";
+
+export const Identity = ({ children }) => {
+  const { dispatch } = useContext(AppContext);
+
+  useEffect(() => {
+    netlifyIdentity.init({});
+    if (netlifyIdentity.currentUser()) {
+      console.log("currentUser: ", netlifyIdentity.currentUser());
+      dispatch({
+        type: SET_IS_ADMIN_LOGGED_IN,
+        user: netlifyIdentity.currentUser(),
+      });
+    }
+  }, [dispatch]);
+
+  netlifyIdentity.on("login", (user) => {
+    console.log("netlifyIdentity.on | login: ", user);
+    netlifyIdentity.close();
+    dispatch({
+      type: SET_IS_ADMIN_LOGGED_IN,
+      user: user,
+    });
+  });
+
+  netlifyIdentity.on("logout", (user) => {
+    console.log("netlifyIdentity.on | logout: ", user);
+    netlifyIdentity.close();
+    dispatch({ type: SET_IS_ADMIN_LOGGED_IN, admin: user });
+  });
+
+  return <Fragment>{children}</Fragment>;
+};
