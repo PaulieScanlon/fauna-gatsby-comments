@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import { Location } from "@reach/router";
 import { Container, Flex, Box, NavLink, Button } from "@theme-ui/components";
-import { Link } from "gatsby";
+import { Link as GatsbyLink } from "gatsby";
 import netlifyIdentity from "netlify-identity-widget";
 
 import { AppContext } from "../components/AppContext";
@@ -49,22 +49,24 @@ const Header = () => {
                     mx: (theme) => `-${theme.space[2]}px`,
                   }}
                 >
-                  <NavLink as={Link} to="/">
+                  <NavLink as={GatsbyLink} to="/">
                     <SvgIcon iconPath={COMMENT_ICON} />
                   </NavLink>
-                  <NavLink as={Link} to="/posts">
+                  <NavLink as={GatsbyLink} to="/posts">
                     Posts
                   </NavLink>
                 </Flex>
                 <Box>
                   {pathname.includes("admin") ? (
                     <Fragment>
-                      <Button
-                        variant="primary"
-                        onClick={() => netlifyIdentity.open("signup")}
-                      >
-                        Sign up
-                      </Button>
+                      {process.env.GATSBY_SHOW_SIGN_UP === "true" ? (
+                        <Button
+                          variant="primary"
+                          onClick={() => netlifyIdentity.open("signup")}
+                        >
+                          Sign up
+                        </Button>
+                      ) : null}
                       <Button
                         variant="secondary"
                         onClick={() => netlifyIdentity.open("login")}
@@ -72,7 +74,7 @@ const Header = () => {
                           ml: 2,
                         }}
                       >
-                        {admin && admin.id === process.env.ADMIN_ID
+                        {admin && admin.id === process.env.GATSBY_ADMIN_ID
                           ? "Log out"
                           : "Login"}
                       </Button>

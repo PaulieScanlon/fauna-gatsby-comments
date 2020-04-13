@@ -3,8 +3,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import { MDXProvider } from "@mdx-js/react";
 import { graphql } from "gatsby";
 import { format } from "date-fns";
-import { Link } from "gatsby";
-
+import { Link as GatsbyLink } from "gatsby";
 import {
   Heading,
   Text,
@@ -12,6 +11,7 @@ import {
   Box,
   Divider,
   Button,
+  Link,
 } from "@theme-ui/components";
 
 import Comment from "../components/Comment";
@@ -53,7 +53,11 @@ const PostsLayout = ({
         <Box>
           {prev && (
             <Box>
-              <Link to={prev.fields.slug}>
+              <Link
+                as={GatsbyLink}
+                to={prev.fields.slug}
+                sx={{ textDecoration: "none" }}
+              >
                 <Button tabIndex={-1} variant="ghost">
                   Prev
                 </Button>
@@ -64,7 +68,11 @@ const PostsLayout = ({
         <Box>
           {next && (
             <Box>
-              <Link to={next.fields.slug}>
+              <Link
+                as={GatsbyLink}
+                to={next.fields.slug}
+                sx={{ textDecoration: "none" }}
+              >
                 <Button tabIndex={-1} variant="ghost">
                   Next
                 </Button>
@@ -85,12 +93,16 @@ const PostsLayout = ({
       </Text>
       <Divider />
       <Comment
+        isApproved={true}
+        isAdmin={false}
         date="2020-04-11T00:00:00.000Z"
         name="Jimi Hendix"
         comment="You jump in front of my car when you, you know all the time. Ninty miles an hour girl, is the speed I drive. You tell me it's alright, you don't mind a little pain. You say you just want me to, take you for a drive."
       />
       <Divider />
       <Comment
+        isApproved={true}
+        isAdmin={false}
         date="2020-04-11T00:00:00.000Z"
         name="Robert Plant"
         comment="Oh, let the sun beat down upon my face. With stars to fill my dream. I am a traveler of both time and space. To be where I have been."

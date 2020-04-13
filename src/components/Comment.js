@@ -1,16 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
-import { Flex, Box, Text, Heading } from "@theme-ui/components";
+import { Flex, Box, Text, Heading, Button } from "@theme-ui/components";
 
 import SvgIcon from "./SvgIcon";
-import { QUOTE_ICON } from "../utils/iconPaths";
+import { QUOTE_ICON, DELETE_ICON, APPROVE_ICON } from "../utils/iconPaths";
 
 const ICON_SIZE = 32;
 
-const Comment = ({ date, name, comment }) => {
+const Comment = ({ date, name, comment, isAdmin, isApproved }) => {
   return (
-    <Box>
+    <Box data-approved={isApproved}>
       <Box
         sx={{
           ml: [0, ICON_SIZE * 1.2],
@@ -66,15 +66,49 @@ const Comment = ({ date, name, comment }) => {
           }}
         />
       </Flex>
+      <Box
+        sx={{
+          mt: 3,
+        }}
+      >
+        {isAdmin ? (
+          <Flex
+            sx={{
+              justifyContent: "flex-end",
+            }}
+          >
+            <Button variant="ghost" sx={{ color: "error", mr: 3 }}>
+              <SvgIcon iconPath={DELETE_ICON} sx={{ color: "error", mr: 2 }} />
+              Delete
+            </Button>
+            <Button variant="secondary" sx={{ backgroundColor: "success" }}>
+              <SvgIcon
+                iconPath={APPROVE_ICON}
+                sx={{ color: "succes", mr: 2 }}
+              />
+              Approve
+            </Button>
+          </Flex>
+        ) : null}
+      </Box>
     </Box>
   );
 };
 
+Comment.defaultProps = {
+  isApproved: false,
+  isAdmin: false,
+};
+
 Comment.propTypes = {
-  /** The name of the person who submitted the comment */
-  name: PropTypes.string.isRequired,
+  /** Arbitrary / Unused prop but it allows us to spread the DB response */
+  isApproved: PropTypes.bool.isRequired,
+  /** Is admin logged in */
+  isAdmin: PropTypes.bool.isRequired,
   /** The date the comment was posted */
   date: PropTypes.string.isRequired,
+  /** The name of the person who submitted the comment */
+  name: PropTypes.string.isRequired,
   /** The comment made by the user */
   comment: PropTypes.string.isRequired,
 };

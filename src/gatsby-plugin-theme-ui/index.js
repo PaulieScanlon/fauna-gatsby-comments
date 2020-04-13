@@ -239,7 +239,9 @@ export default {
   buttons: {
     backgroundColor: "primary",
     primary: {
+      alignItems: "center",
       cursor: "pointer",
+      display: "inline-flex",
       "&:disabled": {
         color: "darken",
         cursor: "not-allowed",
@@ -247,8 +249,10 @@ export default {
       },
     },
     secondary: {
+      alignItems: "center",
       backgroundColor: "secondary",
       cursor: "pointer",
+      display: "inline-flex",
       "&:disabled": {
         color: "darken",
         cursor: "not-allowed",
@@ -256,8 +260,10 @@ export default {
       },
     },
     ghost: {
+      alignItems: "center",
       backgroundColor: "background",
       cursor: "pointer",
+      display: "inline-flex",
       color: "primary",
       px: 2,
       py: 2,
@@ -267,8 +273,10 @@ export default {
       },
     },
     text: {
+      alignItems: "center",
       backgroundColor: "transparent",
       cursor: "pointer",
+      display: "inline-flex",
       color: "text",
       p: 0,
       transition: ".2s linear color",
@@ -279,7 +287,9 @@ export default {
     close: {
       cursor: "pointer",
     },
-    icon: {},
+    icon: {
+      cursor: "pointer",
+    },
     menu: {},
   },
   text: {

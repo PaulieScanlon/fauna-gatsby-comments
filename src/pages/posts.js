@@ -35,7 +35,10 @@ const PostsPage = () => {
   return (
     <Fragment>
       <Heading as="h1" variant="styles.h1">
-        Posts
+        Posts{" "}
+        <span role="img" aria-label="posts">
+          ✍️
+        </span>
       </Heading>
       <Divider />
       <Flex sx={{ flexWrap: "wrap", mx: (theme) => `-${theme.space[2]}px` }}>

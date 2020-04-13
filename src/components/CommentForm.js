@@ -52,7 +52,7 @@ const CommentForm = () => {
         validationSchema={schema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           fetch(
-            "http://www.mocky.io/v2/5e8304312f000061fa2fc88e?mocky-delay=2000ms"
+            "https://www.mocky.io/v2/5e8304312f000061fa2fc88e?mocky-delay=2000ms"
           )
             .then(() => {
               setSubmitting(false);
@@ -147,10 +147,6 @@ const CommentForm = () => {
                   disabled={
                     isSubmitting || !dirty || !!errors.name || !!errors.comment
                   }
-                  sx={{
-                    alignItems: "center",
-                    display: "inline-flex",
-                  }}
                 >
                   {isSubmitting ? (
                     <Fragment>
