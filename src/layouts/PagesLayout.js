@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Container } from "@theme-ui/components";
+
 import Header from "../components/Header";
 
 const PagesLayout = ({ children }) => (

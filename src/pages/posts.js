@@ -11,7 +11,16 @@ import {
   Button,
 } from "@theme-ui/components";
 
+import Seo from "../components/Seo";
+import { useConfig } from "../utils/useConfig";
+
 const PostsPage = () => {
+  const {
+    site: {
+      siteMetadata: { name, description, keywords, siteUrl, siteImage, lang },
+    },
+  } = useConfig();
+
   const posts = useStaticQuery(graphql`
     query getAllPosts {
       allMdx(sort: { order: DESC, fields: [frontmatter___date] }) {
@@ -34,6 +43,17 @@ const PostsPage = () => {
 
   return (
     <Fragment>
+      <Seo
+        type="website"
+        title={name}
+        titleTemplate="Posts"
+        keywords={keywords}
+        description={description}
+        siteUrl={siteUrl}
+        siteImage={siteImage}
+        lang={lang}
+        // path=""
+      />
       <Heading as="h1" variant="styles.h1">
         Posts{" "}
         <span role="img" aria-label="posts">

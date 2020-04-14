@@ -14,14 +14,17 @@ import {
   Link,
 } from "@theme-ui/components";
 
+import Seo from "../components/Seo";
 import Comment from "../components/Comment";
 import CommentForm from "../components/CommentForm";
+import { useConfig } from "../utils/useConfig";
 
 const PostsLayout = ({
   data: {
     mdx: {
       id,
       body,
+      excerpt,
       frontmatter: { title, date },
       fields: { slug },
     },
@@ -30,8 +33,25 @@ const PostsLayout = ({
 }) => {
   const { prev, next } = pageContext;
 
+  const {
+    site: {
+      siteMetadata: { name, keywords, siteUrl, siteImage, lang },
+    },
+  } = useConfig();
+
   return (
     <Box>
+      <Seo
+        type="article"
+        title={name}
+        titleTemplate={title}
+        keywords={keywords}
+        description={excerpt}
+        siteUrl={siteUrl}
+        siteImage={siteImage}
+        lang={lang}
+        path={slug}
+      />
       <Flex
         sx={{
           flexDirection: "column",
