@@ -23,6 +23,7 @@ const PostsLayout = ({
       id,
       body,
       frontmatter: { title, date },
+      fields: { slug },
     },
   },
   pageContext,
@@ -31,15 +32,21 @@ const PostsLayout = ({
 
   return (
     <Box>
-      <Heading as="h1" variant="styles.h1">
-        {title}
-      </Heading>
-      <Text variant="styles.small" sx={{ color: "highlight" }}>
-        {format(new Date(date), "d MMMM u")}
-      </Text>
-      <Text variant="styles.small" sx={{ color: "muted" }}>
-        {`id: ${id}`}
-      </Text>
+      <Flex
+        sx={{
+          flexDirection: "column",
+        }}
+      >
+        <Heading as="h1" variant="styles.h1">
+          {title}
+        </Heading>
+        <Text as="small" variant="styles.small" sx={{ color: "highlight" }}>
+          {format(new Date(date), "d MMMM u")}
+        </Text>
+        <Text as="small" variant="styles.small" sx={{ color: "muted" }}>
+          {`id: ${id}`}
+        </Text>
+      </Flex>
       <MDXProvider>
         <MDXRenderer>{body}</MDXRenderer>
       </MDXProvider>
@@ -94,6 +101,8 @@ const PostsLayout = ({
       <Divider />
       <Comment
         isApproved={true}
+        slug={slug}
+        postId={id}
         isAdmin={false}
         date="2020-04-11T00:00:00.000Z"
         name="Jimi Hendix"
@@ -102,6 +111,8 @@ const PostsLayout = ({
       <Divider />
       <Comment
         isApproved={true}
+        slug={slug}
+        postId={id}
         isAdmin={false}
         date="2020-04-11T00:00:00.000Z"
         name="Robert Plant"

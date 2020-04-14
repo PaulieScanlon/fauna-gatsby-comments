@@ -3,7 +3,7 @@ export default {
     text: "#333333",
     background: "#ffffff",
     primary: "#FF5BA3",
-    secondary: "#36E5D0",
+    secondary: "#1DE9B6",
     muted: "#DEDEDE",
     highlight: "#00C4FF",
     gray: "#999999",
@@ -70,7 +70,7 @@ export default {
       fontSize: 0,
     },
     a: {
-      color: "highlight",
+      color: "secondary",
     },
     h1: {
       color: "primary",

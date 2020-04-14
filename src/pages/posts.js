@@ -73,7 +73,11 @@ const PostsPage = () => {
                   <Heading as="h5" variant="styles.h5">
                     {title}
                   </Heading>
-                  <Text variant="styles.small" sx={{ color: "highlight" }}>
+                  <Text
+                    as="small"
+                    variant="styles.small"
+                    sx={{ color: "highlight" }}
+                  >
                     {format(new Date(date), "d MMMM u")}
                   </Text>
                   <Divider />

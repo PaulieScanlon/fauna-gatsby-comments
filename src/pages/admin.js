@@ -10,11 +10,13 @@ const AdminPage = () => {
     state: { admin },
   } = useContext(AppContext);
 
+  const isAdmin = () => admin && admin.id === process.env.GATSBY_ADMIN_ID;
+
   return (
     <Fragment>
       <Heading as="h1" variant="styles.h1">
         Admin{" "}
-        {admin && admin.id === process.env.GATSBY_ADMIN_ID ? (
+        {isAdmin() ? (
           <span role="img" aria-label="admin">
             😃
           </span>
@@ -25,15 +27,17 @@ const AdminPage = () => {
         )}
       </Heading>
       <Text>
-        {admin && admin.id === process.env.GATSBY_ADMIN_ID
+        {isAdmin()
           ? "Hooray! You are the administrator"
           : "You have to be the administrator to view this page"}
       </Text>
       <Divider />
-      {admin && admin.id === process.env.GATSBY_ADMIN_ID ? (
+      {isAdmin() ? (
         <Box>
           <Comment
             isApproved={false}
+            slug="/posts/2020/04/post-five/"
+            postId=" f99cfc44-da7b-5ca5-a4a4-82dc3d1239b7"
             isAdmin={true}
             date="2020-04-11T00:00:00.000Z"
             name="Jimi Hendix"
@@ -42,6 +46,8 @@ const AdminPage = () => {
           <Divider />
           <Comment
             isApproved={false}
+            slug="/posts/2020/04/post-five/"
+            postId=" f99cfc44-da7b-5ca5-a4a4-82dc3d1239b7"
             isAdmin={true}
             date="2020-04-11T00:00:00.000Z"
             name="Robert Plant"

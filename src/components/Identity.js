@@ -10,8 +10,10 @@ export const Identity = ({ children }) => {
 
   useEffect(() => {
     netlifyIdentity.init({});
+
+    console.log("netlifyIdentity.currentUser: ", netlifyIdentity.currentUser());
+
     if (netlifyIdentity.currentUser()) {
-      // console.log("currentUser: ", netlifyIdentity.currentUser());
       dispatch({
         type: SET_IS_ADMIN_LOGGED_IN,
         admin: netlifyIdentity.currentUser(),
@@ -20,7 +22,6 @@ export const Identity = ({ children }) => {
   }, [dispatch]);
 
   netlifyIdentity.on("login", (user) => {
-    // console.log("netlifyIdentity.on | login: ", user);
     netlifyIdentity.close();
     dispatch({
       type: SET_IS_ADMIN_LOGGED_IN,
@@ -29,7 +30,6 @@ export const Identity = ({ children }) => {
   });
 
   netlifyIdentity.on("logout", (user) => {
-    // console.log("netlifyIdentity.on | logout: ", user);
     netlifyIdentity.close();
     dispatch({ type: SET_IS_ADMIN_LOGGED_IN, admin: user });
   });

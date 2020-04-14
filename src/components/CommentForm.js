@@ -85,7 +85,11 @@ const CommentForm = () => {
                     <ErrorMessage
                       name={NAME_FIELD}
                       render={() => (
-                        <Text sx={{ color: "error", fontSize: 0, mt: 1 }}>
+                        <Text
+                          as="small"
+                          variant="styles.small"
+                          sx={{ color: "error", mt: 1 }}
+                        >
                           {errors.name}
                         </Text>
                       )}
@@ -108,7 +112,11 @@ const CommentForm = () => {
                     <ErrorMessage
                       name={COMMENT_FIELD}
                       render={() => (
-                        <Text sx={{ color: "error", fontSize: 0, mt: 1 }}>
+                        <Text
+                          as="small"
+                          variant="styles.small"
+                          sx={{ color: "error", mt: 1 }}
+                        >
                           {errors.comment}
                         </Text>
                       )}
@@ -124,12 +132,20 @@ const CommentForm = () => {
               >
                 <Box>
                   {isFormSent && (
-                    <Text sx={{ color: "success", fontSize: 0, mt: 1 }}>
+                    <Text
+                      as="small"
+                      variant="styles.small"
+                      sx={{ color: "success", mt: 1 }}
+                    >
                       Comment sent ok!
                     </Text>
                   )}
                   {isFormError && (
-                    <Text sx={{ color: "error", fontSize: 0, mt: 1 }}>
+                    <Text
+                      as="small"
+                      variant="styles.small"
+                      sx={{ color: "error", mt: 1 }}
+                    >
                       Ooops, there's been an error!
                     </Text>
                   )}
