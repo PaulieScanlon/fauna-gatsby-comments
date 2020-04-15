@@ -73,7 +73,11 @@ const CommentForm = () => {
             <Form>
               <Field name={NAME_FIELD}>
                 {({ field }) => (
-                  <Box>
+                  <Box
+                    sx={{
+                      mb: 4,
+                    }}
+                  >
                     <Label labelFor={NAME_FIELD}>You name</Label>
                     <Input
                       {...field}
@@ -81,6 +85,9 @@ const CommentForm = () => {
                       placeholder="Enter your name"
                       value={values.name}
                       onChange={handleChange}
+                      sx={{
+                        mb: 2,
+                      }}
                     />
                     <ErrorMessage
                       name={NAME_FIELD}
@@ -88,7 +95,7 @@ const CommentForm = () => {
                         <Text
                           as="small"
                           variant="styles.small"
-                          sx={{ color: "error", mt: 1 }}
+                          sx={{ color: "error", position: "absolute" }}
                         >
                           {errors.name}
                         </Text>
@@ -100,7 +107,11 @@ const CommentForm = () => {
               <Divider />
               <Field name={COMMENT_FIELD}>
                 {({ field }) => (
-                  <Box>
+                  <Box
+                    sx={{
+                      mb: 4,
+                    }}
+                  >
                     <Label labelFor={COMMENT_FIELD}>You comment</Label>
                     <Textarea
                       {...field}
@@ -108,6 +119,9 @@ const CommentForm = () => {
                       placeholder="Enter your comment"
                       value={values.comment}
                       onChange={handleChange}
+                      sx={{
+                        mb: 2,
+                      }}
                     />
                     <ErrorMessage
                       name={COMMENT_FIELD}
@@ -115,7 +129,7 @@ const CommentForm = () => {
                         <Text
                           as="small"
                           variant="styles.small"
-                          sx={{ color: "error", mt: 1 }}
+                          sx={{ color: "error", position: "absolute" }}
                         >
                           {errors.comment}
                         </Text>
@@ -127,15 +141,20 @@ const CommentForm = () => {
 
               <Flex
                 sx={{
+                  alignItems: "center",
                   justifyContent: "flex-end",
                 }}
               >
-                <Box>
+                <Box
+                  sx={{
+                    mr: 2,
+                  }}
+                >
                   {isFormSent && (
                     <Text
                       as="small"
                       variant="styles.small"
-                      sx={{ color: "success", mt: 1 }}
+                      sx={{ color: "success" }}
                     >
                       Comment sent ok!
                     </Text>
@@ -144,19 +163,12 @@ const CommentForm = () => {
                     <Text
                       as="small"
                       variant="styles.small"
-                      sx={{ color: "error", mt: 1 }}
+                      sx={{ color: "error" }}
                     >
                       Ooops, there's been an error!
                     </Text>
                   )}
                 </Box>
-              </Flex>
-              <Divider />
-              <Flex
-                sx={{
-                  justifyContent: "flex-end",
-                }}
-              >
                 <Button
                   variant="secondary"
                   type="submit"
