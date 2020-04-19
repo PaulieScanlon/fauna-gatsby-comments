@@ -1,7 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
-import { Flex, Box, Text, Heading, Button, Link } from "@theme-ui/components";
+import {
+  Flex,
+  Box,
+  Text,
+  Heading,
+  Button,
+  Link,
+  Divider,
+} from "@theme-ui/components";
 
 import SvgIcon from "./SvgIcon";
 import { QUOTE_ICON, DELETE_ICON, APPROVE_ICON } from "../utils/iconPaths";
@@ -9,16 +17,20 @@ import { QUOTE_ICON, DELETE_ICON, APPROVE_ICON } from "../utils/iconPaths";
 const QUOTE_ICON_SIZE = 32;
 
 const Comment = ({
+  commentId,
+  isApproved,
+  slug,
+  postId,
   date,
   name,
   comment,
   isAdmin,
-  isApproved,
-  slug,
-  postId,
+  onApprove,
+  onDelete,
 }) => {
   return (
     <Box
+      as="section"
       sx={{
         borderBottomColor: "darken",
         borderBottomStyle: "solid",
@@ -59,8 +71,9 @@ const Comment = ({
           variant="styles.small"
           sx={{
             alignSelf: "center",
-            display: "flex",
             color: "gray",
+            display: "flex",
+            flex: 1,
             fontStyle: "italic",
           }}
         >
@@ -88,20 +101,22 @@ const Comment = ({
             sx={{
               justifyContent: "space-between",
               flexWrap: "wrap",
-              mb: 4,
             }}
           >
             <Flex
               sx={{
                 flexDirection: "column",
-                mb: 4,
+                mb: [4, 0],
               }}
             >
               <Text as="small" variant="styles.small">
                 Approved: {isApproved ? "true" : "false"}
               </Text>
               <Text as="small" variant="styles.small">
-                Post id: {postId}
+                Comment Id: {commentId}
+              </Text>
+              <Text as="small" variant="styles.small">
+                Post Id: {postId}
               </Text>
               <Flex>
                 <Text as="small" variant="styles.small" sx={{ mr: 1 }}>
@@ -119,23 +134,35 @@ const Comment = ({
                 justifyContent: ["space-between", "flex-end"],
               }}
             >
-              <Button variant="ghost" sx={{ color: "error", mr: 3 }}>
+              <Button
+                variant="ghost"
+                sx={{ color: "error", mr: 3 }}
+                onClick={() => onDelete(commentId)}
+              >
                 <SvgIcon
                   iconPath={DELETE_ICON}
                   sx={{ color: "error", mr: 2 }}
                 />
                 Delete
               </Button>
-              <Button variant="secondary" sx={{ backgroundColor: "success" }}>
-                <SvgIcon
-                  iconPath={APPROVE_ICON}
-                  sx={{ color: "succes", mr: 2 }}
-                />
-                Approve
+              <Button
+                variant="secondary"
+                sx={{ backgroundColor: "success" }}
+                disabled={isApproved}
+                onClick={() => onApprove(commentId)}
+              >
+                {!isApproved && (
+                  <SvgIcon
+                    iconPath={APPROVE_ICON}
+                    sx={{ color: "succes", mr: 2 }}
+                  />
+                )}
+                {isApproved ? "Approved" : "Approve"}
               </Button>
             </Flex>
           </Flex>
         ) : null}
+        <Divider />
       </Box>
     </Box>
   );
@@ -147,20 +174,22 @@ Comment.defaultProps = {
 };
 
 Comment.propTypes = {
+  /** The comment Id */
+  commentId: PropTypes.string.isRequired,
   /** Status of commnet - only show if isAdmin = true */
   isApproved: PropTypes.bool.isRequired,
   /** The slug of the post the comments releated to - only show if isAdmin = true */
   slug: PropTypes.string.isRequired,
   /** The Post Id of the post the comments releated to - only show if isAdmin = true */
   postId: PropTypes.string.isRequired,
-  /** Is admin logged in */
-  isAdmin: PropTypes.bool.isRequired,
   /** The date the comment was posted */
   date: PropTypes.string.isRequired,
   /** The name of the person who submitted the comment */
   name: PropTypes.string.isRequired,
   /** The comment made by the user */
   comment: PropTypes.string.isRequired,
+  /** Is admin logged in */
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default Comment;

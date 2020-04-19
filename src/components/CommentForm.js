@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import PropTypes from "prop-types";
 import {
   Flex,
   Box,
@@ -10,6 +11,9 @@ import {
   Label,
   Spinner,
 } from "@theme-ui/components";
+
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -31,9 +35,29 @@ const schema = Yup.object().shape({
     .required("Please enter a comment"),
 });
 
-const CommentForm = () => {
+const CREATE_COMMENT = gql`
+  mutation(
+    $slug: String!
+    $postId: String!
+    $name: String!
+    $comment: String!
+  ) {
+    createComment(
+      slug: $slug
+      postId: $postId
+      name: $name
+      comment: $comment
+    ) {
+      commentId
+    }
+  }
+`;
+
+const CommentForm = ({ slug, postId }) => {
   const [isFormSent, setIsFormSent] = useState(false);
   const [isFormError, setIsFormError] = useState(false);
+
+  const [createComment, { loading, error }] = useMutation(CREATE_COMMENT);
 
   return (
     <Fragment>
@@ -49,22 +73,27 @@ const CommentForm = () => {
 
       <Formik
         initialValues={initialValues}
+        isSubmitting={loading}
+        errors={error}
         validationSchema={schema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          fetch(
-            "https://www.mocky.io/v2/5e8304312f000061fa2fc88e?mocky-delay=2000ms"
-          )
+        onSubmit={async (values, { resetForm }) => {
+          await createComment({
+            variables: {
+              slug: slug,
+              postId: postId,
+              name: values.name,
+              comment: values.comment,
+            },
+          })
             .then(() => {
-              setSubmitting(false);
               resetForm();
               setIsFormSent(true);
               setTimeout(() => {
                 setIsFormSent(false);
               }, 3000);
             })
-            .catch((error) => {
+            .catch(() => {
               setIsFormError(true);
-              setSubmitting(false);
             });
         }}
       >
@@ -192,6 +221,13 @@ const CommentForm = () => {
       </Formik>
     </Fragment>
   );
+};
+
+CommentForm.propTypes = {
+  /** The slug of the post the comments releated to - only show if isAdmin = true */
+  slug: PropTypes.string.isRequired,
+  /** The Post Id of the post the comments releated to - only show if isAdmin = true */
+  postId: PropTypes.string.isRequired,
 };
 
 export default CommentForm;

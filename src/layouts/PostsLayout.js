@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { MDXProvider } from "@mdx-js/react";
 import { graphql } from "gatsby";
@@ -12,12 +12,30 @@ import {
   Divider,
   Button,
   Link,
+  Spinner,
 } from "@theme-ui/components";
+
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import Seo from "../components/Seo";
 import Comment from "../components/Comment";
 import CommentForm from "../components/CommentForm";
 import { useConfig } from "../utils/useConfig";
+
+const GET_COMMENTS_BY_POST_ID = gql`
+  query($postId: String!) {
+    getCommentsByPostId(postId: $postId) {
+      commentId
+      isApproved
+      slug
+      postId
+      date
+      name
+      comment
+    }
+  }
+`;
 
 const PostsLayout = ({
   data: {
@@ -38,6 +56,12 @@ const PostsLayout = ({
       siteMetadata: { name, keywords, siteUrl, siteImage, lang },
     },
   } = useConfig();
+
+  const { loading, data, error } = useQuery(GET_COMMENTS_BY_POST_ID, {
+    variables: {
+      postId: id,
+    },
+  });
 
   return (
     <Box>
@@ -109,37 +133,29 @@ const PostsLayout = ({
         </Box>
       </Flex>
       <Divider />
-      <Text
-        sx={{
-          color: "secondary",
-          mb: 2,
-          fontStyle: "italic",
-        }}
-      >
-        Comments
-      </Text>
+      {loading && <Spinner />}
+      {error && <Text>{`${error}`}</Text>}
       <Divider />
-      <Comment
-        isApproved={true}
-        slug={slug}
-        postId={id}
-        isAdmin={false}
-        date="2020-04-11T00:00:00.000Z"
-        name="Jimi Hendix"
-        comment="You jump in front of my car when you, you know all the time. Ninty miles an hour girl, is the speed I drive. You tell me it's alright, you don't mind a little pain. You say you just want me to, take you for a drive."
-      />
-      <Divider />
-      <Comment
-        isApproved={true}
-        slug={slug}
-        postId={id}
-        isAdmin={false}
-        date="2020-04-11T00:00:00.000Z"
-        name="Robert Plant"
-        comment="Oh, let the sun beat down upon my face. With stars to fill my dream. I am a traveler of both time and space. To be where I have been."
-      />
-      <Divider />
-      <CommentForm />
+      {data &&
+        data.getCommentsByPostId
+          .filter((comment) => comment.isApproved)
+          .map((comment, index) => (
+            <Fragment key={index}>
+              <Text
+                sx={{
+                  color: "secondary",
+                  mb: 2,
+                  fontStyle: "italic",
+                }}
+              >
+                Comments
+              </Text>
+              <Divider />
+              <Comment {...comment} />
+              <Divider />
+            </Fragment>
+          ))}
+      <CommentForm slug={slug} postId={id} />
       <Divider />
     </Box>
   );

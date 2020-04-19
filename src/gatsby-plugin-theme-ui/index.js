@@ -323,7 +323,7 @@ export default {
       flex: 1,
       p: 4,
       boxShadow: 0,
-      backgroundColor: "darken",
+      backgroundColor: "background",
       transition: ".2s linear box-shadow",
       ":hover": {
         boxShadow: 1,
@@ -332,6 +332,7 @@ export default {
   },
   layout: {
     container: {
+      maxWidth: 998,
       px: [3, 4],
     },
   },
