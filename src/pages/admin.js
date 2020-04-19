@@ -1,9 +1,42 @@
 import React, { Fragment, useContext } from "react";
-import { Heading, Text, Box, Divider } from "@theme-ui/components";
+import { Heading, Text, Box, Divider, Spinner } from "@theme-ui/components";
+
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import { AppContext } from "../components/AppContext";
 
 import Comment from "../components/Comment";
+
+const GET_ALL_COMMENTS = gql`
+  query {
+    getAllComments {
+      commentId
+      isApproved
+      slug
+      postId
+      date
+      name
+      comment
+    }
+  }
+`;
+
+const DELETE_COMMENT_BY_ID = gql`
+  mutation($commentId: String!) {
+    deleteCommentById(commentId: $commentId) {
+      commentId
+    }
+  }
+`;
+
+const APPROVE_COMMENT_BY_ID = gql`
+  mutation($commentId: String!) {
+    approveCommentById(commentId: $commentId) {
+      isApproved
+    }
+  }
+`;
 
 const AdminPage = () => {
   const {
@@ -11,6 +44,10 @@ const AdminPage = () => {
   } = useContext(AppContext);
 
   const isAdmin = () => admin && admin.id === process.env.GATSBY_ADMIN_ID;
+
+  const { loading, error, data } = useQuery(GET_ALL_COMMENTS);
+  const [deleteCommentById] = useMutation(DELETE_COMMENT_BY_ID);
+  const [approveCommentById] = useMutation(APPROVE_COMMENT_BY_ID);
 
   return (
     <Fragment>
@@ -32,29 +69,41 @@ const AdminPage = () => {
           : "You have to be the administrator to view this page"}
       </Text>
       <Divider />
-      {isAdmin() ? (
-        <Box>
-          <Comment
-            isApproved={false}
-            slug="/posts/2020/04/post-five/"
-            postId=" f99cfc44-da7b-5ca5-a4a4-82dc3d1239b7"
-            isAdmin={true}
-            date="2020-04-11T00:00:00.000Z"
-            name="Jimi Hendix"
-            comment="You jump in front of my car when you, you know all the time. Ninty miles an hour girl, is the speed I drive. You tell me it's alright, you don't mind a little pain. You say you just want me to, take you for a drive."
-          />
-          <Divider />
-          <Comment
-            isApproved={false}
-            slug="/posts/2020/04/post-five/"
-            postId=" f99cfc44-da7b-5ca5-a4a4-82dc3d1239b7"
-            isAdmin={true}
-            date="2020-04-11T00:00:00.000Z"
-            name="Robert Plant"
-            comment="Oh, let the sun beat down upon my face. With stars to fill my dream. I am a traveler of both time and space. To be where I have been."
-          />
-        </Box>
-      ) : null}
+
+      <Divider />
+      {loading && <Spinner />}
+      {error && <Text>{`${error}`}</Text>}
+
+      {isAdmin() &&
+        data &&
+        data.getAllComments.map((comment, index) => {
+          const { commentId } = comment;
+          return (
+            <Fragment key={index}>
+              <Comment
+                {...comment}
+                isAdmin={isAdmin()}
+                onApprove={() =>
+                  approveCommentById({
+                    variables: {
+                      commentId,
+                    },
+                    refetchQueries: [{ query: GET_ALL_COMMENTS }],
+                  })
+                }
+                onDelete={() =>
+                  deleteCommentById({
+                    variables: {
+                      commentId,
+                    },
+                    refetchQueries: [{ query: GET_ALL_COMMENTS }],
+                  })
+                }
+              />
+              <Divider />
+            </Fragment>
+          );
+        })}
       <Divider />
     </Fragment>
   );

@@ -31,8 +31,8 @@ const Header = () => {
                 height: "header",
                 left: 0,
                 position: "fixed",
-
                 right: 0,
+                zIndex: 1,
               }}
             >
               <Container

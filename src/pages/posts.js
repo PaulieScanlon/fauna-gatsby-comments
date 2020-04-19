@@ -74,7 +74,6 @@ const PostsPage = () => {
               sx={{
                 px: 2,
                 mb: 3,
-                width: ["100%", "50%"],
                 a: {
                   textDecoration: "none",
                 },
@@ -90,7 +89,7 @@ const PostsPage = () => {
                     },
                   }}
                 >
-                  <Heading as="h5" variant="styles.h5">
+                  <Heading as="h4" variant="styles.h4">
                     {title}
                   </Heading>
                   <Text
