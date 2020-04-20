@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from "react";
-import { Heading, Text, Box, Divider, Spinner } from "@theme-ui/components";
+import { Heading, Text, Divider, Spinner } from "@theme-ui/components";
 
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";

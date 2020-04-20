@@ -324,9 +324,10 @@ export default {
       p: 4,
       boxShadow: 0,
       backgroundColor: "background",
-      transition: ".2s linear box-shadow",
+      transition: ".2s linear box-shadow, .2s ease-in-out transform",
       ":hover": {
-        boxShadow: 1,
+        transform: "translateY(-0.25rem)",
+        boxShadow: 2,
       },
     },
   },

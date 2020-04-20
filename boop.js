@@ -7,97 +7,85 @@ const client = new faunadb.Client({ secret: process.env.GATSBY_FAUNA_DB });
 const COLLECTION_NAME = "demo-blog-comments";
 
 module.exports = {
+  // READ
+  getAllComments: async () => {
+    const results = await client.query(
+      q.Paginate(q.Match(q.Index("get-all-comments")))
+    );
+    console.log(JSON.stringify(results, null, 2));
+    return results.data.map(([ref, isApproved, slug, date, name, comment]) => ({
+      commentId: ref.id,
+      isApproved,
+      slug,
+      date,
+      name,
+      comment,
+    }));
+  },
+
+  // READ
+  getCommentsBySlug: async (root, args, context) => {
+    const results = await client.query(
+      q.Paginate(q.Match(q.Index("get-comments-by-slug"), args.slug))
+    );
+    console.log(JSON.stringify(results, null, 2));
+    return results.data.map(([ref, isApproved, slug, date, name, comment]) => ({
+      commentId: ref.id,
+      isApproved,
+      slug,
+      date,
+      name,
+      comment,
+    }));
+  },
+
+  // CREATE
   createComment: async () => {
-    //  create a new comment for postId
-    const postId = "f99cfc44-da7b-5ca5-a4a4-82dc3d1239b7";
+    const slug = "/posts/some-post";
+    const name = "some name";
+    const comment = "some comment";
 
     const results = await client.query(
       q.Create(q.Collection(COLLECTION_NAME), {
         data: {
           isApproved: false,
-          slug: "some-slug",
-          postId: postId,
+          slug: slug,
           date: new Date().toString(),
-          name: "Delete me",
-          comment: "Test comment 1",
+          name: name,
+          comment: comment,
         },
       })
     );
-
-    const {
-      ref: { id },
-      data,
-    } = results;
-
-    const response = {
-      commentId: id,
-      ...data,
+    console.log(JSON.stringify(results, null, 2));
+    return {
+      commentId: results.ref.id,
     };
-
-    console.log(JSON.stringify(response, null, 2));
   },
-  readComment: async () => {
-    // read a comment by commentId
-    const commentId = "";
 
+  // DELETE
+  deleteCommentById: async (root, args, context) => {
     const results = await client.query(
-      q.Get(q.Ref(q.Collection(COLLECTION_NAME), commentId))
+      q.Delete(q.Ref(q.Collection(COLLECTION_NAME), args.commentId))
     );
-    const { data } = results;
-    const response = {
-      ...data,
+    console.log(JSON.stringify(results, null, 2));
+    return {
+      commentId: results.ref.id,
     };
-
-    console.log(JSON.stringify(response, null, 2));
   },
-  udpateComment: async () => {
-    // update a comment by commentId
-    const commentId = "";
 
+  // UPDATE
+  approveCommentById: async (root, args, context) => {
     const results = await client.query(
-      q.Update(q.Ref(q.Collection(COLLECTION_NAME), commentId), {
+      q.Update(q.Ref(q.Collection(COLLECTION_NAME), args.commentId), {
         data: {
           isApproved: true,
-          date: new Date().toString(),
         },
       })
     );
-    const { data } = results;
-    const response = {
-      ...data,
+    console.log(JSON.stringify(results, null, 2));
+    return {
+      isApproved: results.isApproved,
     };
-
-    console.log(JSON.stringify(response, null, 2));
-  },
-  deleteComment: async () => {
-    // delete a comment by commentId
-    const commentId = "";
-    const results = await client.query(
-      q.Delete(q.Ref(q.Collection(COLLECTION_NAME), commentId))
-    );
-
-    const response = `commentId:${results.ref.id} | deleted ok!`;
-    console.log(JSON.stringify(response, null, 2));
-  },
-
-  getAllComments: async () => {
-    // get all comments
-    const results = await client.query(
-      q.Paginate(q.Match(q.Index("get-all-comments")))
-    );
-    const response = results.data.map(
-      ([ref, isApproved, slug, postId, date, name, comment]) => ({
-        ref: ref.id,
-        isApproved,
-        slug,
-        postId,
-        date,
-        name,
-        comment,
-      })
-    );
-
-    console.log(JSON.stringify(response, null, 2));
   },
 };
 

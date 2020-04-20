@@ -61,26 +61,6 @@ const resolvers = {
       );
     },
 
-    // READ
-    //   getCommentsByPostId: async (root, args, context) => {
-    //     const results = await client.query(
-    //       q.Paginate(q.Match(q.Index("get-comments-by-post-id"), args.postId))
-    //     );
-
-    //     return results.data.map(
-    //       ([ref, isApproved, slug, postId, date, name, comment]) => ({
-    //         commentId: ref.id,
-    //         isApproved,
-    //         slug,
-    //         postId,
-    //         date,
-    //         name,
-    //         comment,
-    //       })
-    //     );
-    //   },
-    // },
-
     getCommentsBySlug: async (root, args, context) => {
       const results = await client.query(
         q.Paginate(q.Match(q.Index("get-comments-by-slug"), args.slug))
