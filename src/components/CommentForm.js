@@ -36,24 +36,14 @@ const schema = Yup.object().shape({
 });
 
 const CREATE_COMMENT = gql`
-  mutation(
-    $slug: String!
-    $postId: String!
-    $name: String!
-    $comment: String!
-  ) {
-    createComment(
-      slug: $slug
-      postId: $postId
-      name: $name
-      comment: $comment
-    ) {
+  mutation($slug: String!, $name: String!, $comment: String!) {
+    createComment(slug: $slug, name: $name, comment: $comment) {
       commentId
     }
   }
 `;
 
-const CommentForm = ({ slug, postId }) => {
+const CommentForm = ({ slug }) => {
   const [isFormSent, setIsFormSent] = useState(false);
   const [isFormError, setIsFormError] = useState(false);
 
@@ -80,7 +70,6 @@ const CommentForm = ({ slug, postId }) => {
           await createComment({
             variables: {
               slug: slug,
-              postId: postId,
               name: values.name,
               comment: values.comment,
             },
@@ -226,8 +215,6 @@ const CommentForm = ({ slug, postId }) => {
 CommentForm.propTypes = {
   /** The slug of the post the comments releated to - only show if isAdmin = true */
   slug: PropTypes.string.isRequired,
-  /** The Post Id of the post the comments releated to - only show if isAdmin = true */
-  postId: PropTypes.string.isRequired,
 };
 
 export default CommentForm;

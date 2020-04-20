@@ -11,16 +11,11 @@ const COLLECTION_NAME = "demo-blog-comments";
 const typeDefs = gql`
   type Query {
     getAllComments: [CommentObject]
-    getCommentsByPostId(postId: String!): [CommentObject]
+    getCommentsBySlug(slug: String!): [CommentObject]
   }
 
   type Mutation {
-    createComment(
-      slug: String!
-      postId: String!
-      name: String!
-      comment: String
-    ): CreatedComment
+    createComment(slug: String!, name: String!, comment: String): CreatedComment
     deleteCommentById(commentId: String!): DeletedComment
     approveCommentById(commentId: String!): ApprovedComment
   }
@@ -41,7 +36,6 @@ const typeDefs = gql`
     commentId: String
     isApproved: Boolean
     slug: String
-    postId: String
     date: String
     name: String
     comment: String
@@ -56,11 +50,10 @@ const resolvers = {
         q.Paginate(q.Match(q.Index("get-all-comments")))
       );
       return results.data.map(
-        ([ref, isApproved, slug, postId, date, name, comment]) => ({
+        ([ref, isApproved, slug, date, name, comment]) => ({
           commentId: ref.id,
           isApproved,
           slug,
-          postId,
           date,
           name,
           comment,
@@ -69,17 +62,35 @@ const resolvers = {
     },
 
     // READ
-    getCommentsByPostId: async (root, args, context) => {
+    //   getCommentsByPostId: async (root, args, context) => {
+    //     const results = await client.query(
+    //       q.Paginate(q.Match(q.Index("get-comments-by-post-id"), args.postId))
+    //     );
+
+    //     return results.data.map(
+    //       ([ref, isApproved, slug, postId, date, name, comment]) => ({
+    //         commentId: ref.id,
+    //         isApproved,
+    //         slug,
+    //         postId,
+    //         date,
+    //         name,
+    //         comment,
+    //       })
+    //     );
+    //   },
+    // },
+
+    getCommentsBySlug: async (root, args, context) => {
       const results = await client.query(
-        q.Paginate(q.Match(q.Index("get-comments-by-post-id"), args.postId))
+        q.Paginate(q.Match(q.Index("get-comments-by-slug"), args.slug))
       );
 
       return results.data.map(
-        ([ref, isApproved, slug, postId, date, name, comment]) => ({
+        ([ref, isApproved, slug, date, name, comment]) => ({
           commentId: ref.id,
           isApproved,
           slug,
-          postId,
           date,
           name,
           comment,
@@ -96,7 +107,6 @@ const resolvers = {
           data: {
             isApproved: false,
             slug: args.slug,
-            postId: args.postId,
             date: new Date().toString(),
             name: args.name,
             comment: args.comment,

@@ -23,13 +23,12 @@ import Comment from "../components/Comment";
 import CommentForm from "../components/CommentForm";
 import { useConfig } from "../utils/useConfig";
 
-const GET_COMMENTS_BY_POST_ID = gql`
-  query($postId: String!) {
-    getCommentsByPostId(postId: $postId) {
+const GET_COMMENTS_BY_SLUG = gql`
+  query($slug: String!) {
+    getCommentsBySlug(slug: $slug) {
       commentId
       isApproved
       slug
-      postId
       date
       name
       comment
@@ -40,7 +39,6 @@ const GET_COMMENTS_BY_POST_ID = gql`
 const PostsLayout = ({
   data: {
     mdx: {
-      id,
       body,
       excerpt,
       frontmatter: { title, date },
@@ -57,9 +55,9 @@ const PostsLayout = ({
     },
   } = useConfig();
 
-  const { loading, data, error } = useQuery(GET_COMMENTS_BY_POST_ID, {
+  const { loading, data, error } = useQuery(GET_COMMENTS_BY_SLUG, {
     variables: {
-      postId: id,
+      slug: slug,
     },
   });
 
@@ -86,9 +84,6 @@ const PostsLayout = ({
         </Heading>
         <Text as="small" variant="styles.small" sx={{ color: "highlight" }}>
           {format(new Date(date), "d MMMM u")}
-        </Text>
-        <Text as="small" variant="styles.small" sx={{ color: "muted" }}>
-          {`id: ${id}`}
         </Text>
       </Flex>
       <MDXProvider>
@@ -137,7 +132,7 @@ const PostsLayout = ({
       {error && <Text>{`${error}`}</Text>}
       <Divider />
       {data &&
-        data.getCommentsByPostId
+        data.getCommentsBySlug
           .filter((comment) => comment.isApproved)
           .map((comment, index) => (
             <Fragment key={index}>
@@ -155,7 +150,7 @@ const PostsLayout = ({
               <Divider />
             </Fragment>
           ))}
-      <CommentForm slug={slug} postId={id} />
+      <CommentForm slug={slug} />
       <Divider />
     </Box>
   );

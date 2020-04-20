@@ -20,7 +20,6 @@ const Comment = ({
   commentId,
   isApproved,
   slug,
-  postId,
   date,
   name,
   comment,
@@ -115,9 +114,6 @@ const Comment = ({
               <Text as="small" variant="styles.small">
                 Comment Id: {commentId}
               </Text>
-              <Text as="small" variant="styles.small">
-                Post Id: {postId}
-              </Text>
               <Flex>
                 <Text as="small" variant="styles.small" sx={{ mr: 1 }}>
                   Link:
@@ -180,8 +176,6 @@ Comment.propTypes = {
   isApproved: PropTypes.bool.isRequired,
   /** The slug of the post the comments releated to - only show if isAdmin = true */
   slug: PropTypes.string.isRequired,
-  /** The Post Id of the post the comments releated to - only show if isAdmin = true */
-  postId: PropTypes.string.isRequired,
   /** The date the comment was posted */
   date: PropTypes.string.isRequired,
   /** The name of the person who submitted the comment */

@@ -14,7 +14,6 @@ const GET_ALL_COMMENTS = gql`
       commentId
       isApproved
       slug
-      postId
       date
       name
       comment
@@ -71,8 +70,8 @@ const AdminPage = () => {
       <Divider />
 
       <Divider />
-      {loading && <Spinner />}
-      {error && <Text>{`${error}`}</Text>}
+      {isAdmin() && loading && <Spinner />}
+      {isAdmin() && error && <Text>{`${error}`}</Text>}
 
       {isAdmin() &&
         data &&
