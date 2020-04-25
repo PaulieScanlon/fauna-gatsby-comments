@@ -44,7 +44,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    // READ
+    // GET ALL COMMENTS
     getAllComments: async () => {
       const results = await client.query(
         q.Paginate(q.Match(q.Index("get-all-comments")))
@@ -61,6 +61,7 @@ const resolvers = {
       );
     },
 
+    // GET COMMENT BY SLUG
     getCommentsBySlug: async (root, args, context) => {
       const results = await client.query(
         q.Paginate(q.Match(q.Index("get-comments-by-slug"), args.slug))
@@ -80,7 +81,7 @@ const resolvers = {
   },
 
   Mutation: {
-    // CREATE
+    // CREATE COMMENT
     createComment: async (root, args, context) => {
       const results = await client.query(
         q.Create(q.Collection(COLLECTION_NAME), {
@@ -99,7 +100,7 @@ const resolvers = {
       };
     },
 
-    // DELETE
+    // DELETE COMMENT BY ID
     deleteCommentById: async (root, args, context) => {
       const results = await client.query(
         q.Delete(q.Ref(q.Collection(COLLECTION_NAME), args.commentId))
@@ -110,7 +111,7 @@ const resolvers = {
       };
     },
 
-    // UPDATE
+    // APPROVE COMMENT BY ID
     approveCommentById: async (root, args, context) => {
       const results = await client.query(
         q.Update(q.Ref(q.Collection(COLLECTION_NAME), args.commentId), {
