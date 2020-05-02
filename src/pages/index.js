@@ -31,29 +31,35 @@ const IndexPage = () => {
       </Heading>
       <Divider />
       <Heading as="h4" variant="styles.h4">
-        Welcome to the Fauna Gatsby Comments app
+        Roll your own comments with Gatsby and FaunaDB
       </Heading>
       <Text>
-        In this tutorial we'll build a complete commenting system with Gatsby,
-        Netlify Identity and Netlify serverless functions, Apollo/GraphQL and
-        Fauna
+        In this tutorial we'll learn how to write all the{" "}
+        <Link href="https://dashboard.fauna.com/" target="_blank">
+          FaunaDB
+        </Link>{" "}
+        {""} operations required to drive a Gatsby Blog commenting system.
+        <Divider />
+        This comments app also uses the Netlify Identity Widget, Netlify
+        Continues Deployment, Netlify serverless functions and Apollo/GraphQL
       </Text>
+      <Divider />
       <Text
         sx={{
           fontStyle: "italic",
         }}
       >
-        It's assumed you have some experience developing with React, Gatsby and
-        MDX
+        This tutorial only covers the steps required to perform database
+        operations with FaunaDB
       </Text>
       <Divider />
       <Heading as="h6" variant="styles.h6">
-        Some things you'll need before we start
+        Some things you'll need before we start:
       </Heading>
       <Box as="ul">
         <Box as="li">A GitHub account</Box>
         <Box as="li">A Netlify account</Box>
-        <Box as="li">A Fauna account</Box>
+        <Box as="li">A FaunaDB account</Box>
       </Box>
       <Divider />
       <Text>
