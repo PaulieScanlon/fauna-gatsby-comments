@@ -109,3 +109,6 @@ public
 # env
 .env.development
 .env.production
+
+# boop file
+boop_saved.js
