@@ -6,7 +6,7 @@ const q = faunadb.query;
 
 const client = new faunadb.Client({ secret: process.env.GATSBY_FAUNA_DB });
 
-const COLLECTION_NAME = "demo-blog-comments";
+const COLLECTION_NAME = process.env.GATSBY_FAUNA_COLLECTION;
 
 const typeDefs = gql`
   type Query {
