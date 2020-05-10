@@ -68,6 +68,7 @@ const IndexPage = () => {
           @pauliescanlon
         </Link>
       </Text>
+      <Divider />
     </Fragment>
   );
 };
