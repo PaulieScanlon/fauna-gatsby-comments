@@ -11,7 +11,7 @@ export const Identity = ({ children }) => {
   useEffect(() => {
     netlifyIdentity.init({});
 
-    console.log("netlifyIdentity.currentUser: ", netlifyIdentity.currentUser());
+    // console.log("netlifyIdentity.currentUser: ", netlifyIdentity.currentUser());
 
     if (netlifyIdentity.currentUser()) {
       dispatch({
