@@ -6,7 +6,7 @@ module.exports = {
       "React",
       "Gatsby",
       "FaunaDB",
-      "Netlify Continuous Delivery",
+      "Netlify Continuous Deployment",
       "Netlify Identity Widget",
       "Netlify Serverless functions",
       "Apollo",

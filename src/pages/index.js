@@ -41,7 +41,7 @@ const IndexPage = () => {
         {""} operations required to drive a Gatsby Blog commenting system.
         <Divider />
         This comments app also uses the Netlify Identity Widget, Netlify
-        Continues Deployment, Netlify serverless functions and Apollo/GraphQL
+        Continuous Deployment, Netlify serverless functions and Apollo/GraphQL
       </Text>
       <Divider />
       <Text
