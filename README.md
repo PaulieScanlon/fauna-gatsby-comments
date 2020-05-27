@@ -8,6 +8,8 @@ In this tutorial we'll learn how to write all the [FaunaDB](https://fauna.com/) 
 
 Check out the demo app [here](https://fauna-gatsby-comments.netlify.app/)
 
+... and checkout the tutorial on CSS-Tricks [here](https://css-tricks.com/roll-your-own-comments-with-gatsby-and-faunadb/)
+
 If you used **fauna-gatsby-comments** to help build your project i'd love to hear from you: [@pauliescanlon](https://twitter.com/PaulieScanlon)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P31B7G8)
